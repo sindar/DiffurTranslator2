@@ -1,0 +1,17 @@
+C:\Users\sindar\AppData\Local\Temporary Projects\DiffurTranslator2\bin\Debug\DiffurTranslator2.exe
+C:\Users\sindar\AppData\Local\Temporary Projects\DiffurTranslator2\bin\Debug\DiffurTranslator2.pdb
+C:\Users\sindar\AppData\Local\Temporary Projects\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.MainForm.resources
+C:\Users\sindar\AppData\Local\Temporary Projects\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.Properties.Resources.resources
+C:\Users\sindar\AppData\Local\Temporary Projects\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.csproj.GenerateResource.Cache
+C:\Users\sindar\AppData\Local\Temporary Projects\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.exe
+C:\Users\sindar\AppData\Local\Temporary Projects\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.pdb
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.exe
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.pdb
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Debug\DiffurTranslator2.exe
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Debug\DiffurTranslator2.pdb
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.MainForm.resources
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.Properties.Resources.resources
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.csproj.GenerateResource.Cache
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.csprojResolveAssemblyReference.cache
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.exe
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.pdb

@@ -1,0 +1,20 @@
+begin
+given
+dd = 11.22
+koef
+cauchy
+ff = 22/33
+method
+get
+end
+
+
+
+
+
+
+
+
+
+
+
