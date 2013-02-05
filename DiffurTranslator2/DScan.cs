@@ -100,7 +100,7 @@ namespace DiffurTranslator2
                 }
                 else
                 {
-                    //Errors("Слишком длинное имя");
+                    DError.Errors("Слишком длинное имя");
                     break;
                 }
                 DText.NextCh();
@@ -280,12 +280,15 @@ namespace DiffurTranslator2
                     DText.NextCh();
                     Lex = tLex.lexPow;
                     break;
+                case ';':
+                    DText.NextCh();
+                    Lex = tLex.lexSemi;
+                    break;
                 case DText.chEot:
                     Lex = tLex.lexEot;
                     break;
                 default:
-                    //Errors("Недопустимый символ");
-                    MessageBox.Show("Недопустимый символ Line = " + DText.Line + " Pos = " + DText.Pos);
+                    DError.Errors("Недопустимый символ, ");
                     Lex = tLex.lexEot;
                     break;
             }

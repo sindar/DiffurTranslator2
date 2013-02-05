@@ -22,6 +22,7 @@ namespace DiffurTranslator2
         public static char Ch{ get; set;}
         public static int Line { get; set; }
         public static int Pos { get; set; }
+        public static int CodePos { get; set; }
         public static int PosEol { get; set; }
                
         //Открытие файла для трансляции и установка начальной позиции
@@ -38,6 +39,7 @@ namespace DiffurTranslator2
             }
 
             Pos = 0;
+            CodePos = 0;
             Line = 1;
             NextCh();
         }
@@ -80,15 +82,17 @@ namespace DiffurTranslator2
             else
             {
                 Ch = (char)TrFile.Read();
+                CodePos++;
 
                 if (Ch == '\r' && ((char)TrFile.Read() == '\n'))
                 {
                     Pos = 0;
                     Line++;
                 }
-                                
+
                 if (Ch != '\t')
                     Pos++;
+                
             }
         }
 

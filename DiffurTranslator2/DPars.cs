@@ -9,14 +9,14 @@ namespace DiffurTranslator2
 {
     class DPars
     {
-        public static void Compile(ref RichTextBox DebugRTextBox)
+        public static void Compile(ref RichTextBox stream)
         {
-            DebugRTextBox.Clear();
+            stream.Clear();
             int n = 0;
             while(DScan.Lex != tLex.lexEot)
             {
                 n++;
-                DebugRTextBox.Text += DScan.Lex.ToString() + '\n' ;
+                stream.Text += DScan.Lex.ToString() + '\n' ;
                 DScan.NextLex();
             }
             MessageBox.Show("Количество лексем: " + n);

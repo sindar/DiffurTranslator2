@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-
 namespace DiffurTranslator2
 {
    
@@ -17,6 +16,7 @@ namespace DiffurTranslator2
         public MainForm()
         {
             InitializeComponent();
+            DError.SetOutput(ref this.CodeRTextBox, ref this.DebugRTextBox);
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,17 +46,17 @@ namespace DiffurTranslator2
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DebugRTextBox.Clear();
             DFile.SaveFile(DFile.CurrentFileName, ref CodeRTextBox);
             DText.ResetText();
             DScan.InitScan();
             DPars.Compile(ref LexRTextBox);
-
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(DText.TrFile != null)
-                DText.CloseText();
+                DText.CloseText();    
         }
                 
     }

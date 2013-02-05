@@ -1,0 +1,9 @@
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Release\DiffurTranslator2.exe
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Release\DiffurTranslator2.pdb
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\ResolveAssemblyReference.cache
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.MainForm.resources
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.Properties.Resources.resources
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\GenerateResource.read.1.tlog
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\GenerateResource.write.1.tlog
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.exe
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.pdb

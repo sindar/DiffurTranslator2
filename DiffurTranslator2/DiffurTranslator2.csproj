@@ -51,7 +51,7 @@
     <Compile Include="DPars.cs" />
     <Compile Include="DScan.cs" />
     <Compile Include="DText.cs" />
-    <Compile Include="Error.cs" />
+    <Compile Include="DError.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

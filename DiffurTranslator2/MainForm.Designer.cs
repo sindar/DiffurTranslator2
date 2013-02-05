@@ -90,6 +90,7 @@
             // 
             // CodeRTextBox
             // 
+            this.CodeRTextBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.CodeRTextBox.Location = new System.Drawing.Point(12, 60);
             this.CodeRTextBox.Name = "CodeRTextBox";
             this.CodeRTextBox.Size = new System.Drawing.Size(493, 232);
@@ -102,7 +103,8 @@
             // 
             // DebugRTextBox
             // 
-            this.DebugRTextBox.Location = new System.Drawing.Point(12, 311);
+            this.DebugRTextBox.ForeColor = System.Drawing.Color.MediumBlue;
+            this.DebugRTextBox.Location = new System.Drawing.Point(12, 298);
             this.DebugRTextBox.Name = "DebugRTextBox";
             this.DebugRTextBox.Size = new System.Drawing.Size(493, 106);
             this.DebugRTextBox.TabIndex = 2;
@@ -122,7 +124,7 @@
             // 
             this.LexRTextBox.Location = new System.Drawing.Point(511, 60);
             this.LexRTextBox.Name = "LexRTextBox";
-            this.LexRTextBox.Size = new System.Drawing.Size(230, 357);
+            this.LexRTextBox.Size = new System.Drawing.Size(230, 344);
             this.LexRTextBox.TabIndex = 4;
             this.LexRTextBox.Text = "";
             // 
@@ -156,9 +158,9 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog SaveFileDialog1;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog1;
-        private System.Windows.Forms.RichTextBox DebugRTextBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RichTextBox LexRTextBox;
+        public System.Windows.Forms.RichTextBox DebugRTextBox;
     }
 }
 

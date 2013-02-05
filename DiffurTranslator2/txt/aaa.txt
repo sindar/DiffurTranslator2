@@ -1,12 +1,35 @@
-begin
+beginertretretretretretretretr
 given
 dd = 11.22
 koef
-cauchy
+cauchy жж
 ff = 22/33
 method
 get
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

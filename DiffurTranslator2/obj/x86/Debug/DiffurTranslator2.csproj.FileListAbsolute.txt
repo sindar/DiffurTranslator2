@@ -15,3 +15,10 @@ E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\Diff
 E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.csprojResolveAssemblyReference.cache
 d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.exe
 d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.pdb
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Debug\DiffurTranslator2.exe
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Debug\DiffurTranslator2.pdb
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.MainForm.resources
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.Properties.Resources.resources
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\GenerateResource.read.1.tlog
+D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\GenerateResource.write.1.tlog
