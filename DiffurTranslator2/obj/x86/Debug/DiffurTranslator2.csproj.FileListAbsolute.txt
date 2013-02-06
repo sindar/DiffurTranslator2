@@ -22,3 +22,7 @@ D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTransl
 D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.Properties.Resources.resources
 D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\GenerateResource.read.1.tlog
 D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\Interop.MLApp.dll
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.csproj.ResolveComReference.cache
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.GraphForm.resources
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.WaitForm.resources

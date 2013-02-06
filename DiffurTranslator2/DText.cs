@@ -92,7 +92,6 @@ namespace DiffurTranslator2
 
                 if (Ch != '\t')
                     Pos++;
-                
             }
         }
 

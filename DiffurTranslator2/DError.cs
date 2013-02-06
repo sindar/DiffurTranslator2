@@ -9,6 +9,7 @@ namespace DiffurTranslator2
 {
     public class DError
     {
+        public static int ErrorCounter { get; set; }
         public static RichTextBox CodeInput{ get; set; }
         public static RichTextBox ErrorOuptut{get; set;}
         
@@ -20,14 +21,18 @@ namespace DiffurTranslator2
 
         public static void Errors(string msg)
         {
-            ErrorOuptut.Text += (msg + "cтрока = " + DText.Line + ", cтолбец = " + DText.Pos);
+            /*while (DText.Ch != DText.chEot && DText.Ch != DText.chEol)
+                DText.NextCh();*/
+            
+            ErrorOuptut.Text += (msg + ", cтрока = " + DText.Line + ", cтолбец = " + DText.Pos + '\n');
             CodeInput.Focus();
-            CodeInput.Select(DText.CodePos, 5);
+            CodeInput.Select(DText.CodePos-1, 2);
+            ErrorCounter++;
         }
 
         public static void Expected(string msg)
         {
-            Errors("Ожидается" + msg);
+            Errors(" Ожидается " + msg);
         }
 
         public static void Warning()

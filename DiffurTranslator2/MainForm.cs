@@ -50,13 +50,19 @@ namespace DiffurTranslator2
             DFile.SaveFile(DFile.CurrentFileName, ref CodeRTextBox);
             DText.ResetText();
             DScan.InitScan();
-            DPars.Compile(ref LexRTextBox);
+            DPars.Compile(ref LexRTextBox, ref CodeRTextBox);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(DText.TrFile != null)
                 DText.CloseText();    
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            process1.Start();
+            
         }
                 
     }

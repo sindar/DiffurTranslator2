@@ -39,6 +39,7 @@
             this.DebugRTextBox = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.LexRTextBox = new System.Windows.Forms.RichTextBox();
+            this.process1 = new System.Diagnostics.Process();
             this.MainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@
             this.FileToolStripMenuItem});
             this.MainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MainMenuStrip.Name = "MainMenuStrip";
-            this.MainMenuStrip.Size = new System.Drawing.Size(754, 24);
+            this.MainMenuStrip.Size = new System.Drawing.Size(820, 24);
             this.MainMenuStrip.TabIndex = 0;
             this.MainMenuStrip.Text = "menuStrip1";
             // 
@@ -65,21 +66,21 @@
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.OpenToolStripMenuItem.Text = "Открыть";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.saveToolStripMenuItem.Text = "Сохранить";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.ExitToolStripMenuItem.Text = "Выход";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -124,15 +125,28 @@
             // 
             this.LexRTextBox.Location = new System.Drawing.Point(511, 60);
             this.LexRTextBox.Name = "LexRTextBox";
-            this.LexRTextBox.Size = new System.Drawing.Size(230, 344);
+            this.LexRTextBox.Size = new System.Drawing.Size(297, 344);
             this.LexRTextBox.TabIndex = 4;
             this.LexRTextBox.Text = "";
+            // 
+            // process1
+            // 
+            this.process1.StartInfo.Arguments = "NEW888_ode.m";
+            this.process1.StartInfo.Domain = "";
+            this.process1.StartInfo.FileName = "\"C:\\Program Files\\MATLAB\\R2011a\\bin\\matlab.exe\"";
+            this.process1.StartInfo.LoadUserProfile = false;
+            this.process1.StartInfo.Password = null;
+            this.process1.StartInfo.StandardErrorEncoding = null;
+            this.process1.StartInfo.StandardOutputEncoding = null;
+            this.process1.StartInfo.UserName = "";
+            this.process1.StartInfo.WorkingDirectory = "e:\\_sindar\\working\\MGUPI\\Магистратура\\Корягин\\Цыпленков\\kurs\\data";
+            this.process1.SynchronizingObject = this;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(754, 426);
+            this.ClientSize = new System.Drawing.Size(820, 426);
             this.Controls.Add(this.LexRTextBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.DebugRTextBox);
@@ -161,6 +175,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RichTextBox LexRTextBox;
         public System.Windows.Forms.RichTextBox DebugRTextBox;
+        private System.Diagnostics.Process process1;
     }
 }
 

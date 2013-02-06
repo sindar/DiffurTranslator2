@@ -1,26 +1,21 @@
-beginertretretretretretretretr
-given
-dd = 11.22
-koef
-cauchy жж
-ff = 22/33
-method
-get
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Начало prg
+Дано
+dxdt(1)=(-a)*x(1)*x(2) ;
+dxdt(2)=a*x(1)*x(2)-(b+c)*x(2);
+dxdt(3)=b*x(2);
+Коэффициенты
+a=0.001;
+b=0.07;
+c=0.01;
+Коши
+tspan=[0.0,50.0];
+step=0.6;
+x0=[620.0;10.1;70.1];
+Метод
+euler, ode45;
+Вывести
+plot[1, 2, 3];
+Конец
 
 
 
