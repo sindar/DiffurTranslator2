@@ -15,12 +15,12 @@ namespace DiffurTranslator2
         {
             InitializeComponent();
             timer1.Start();
-            for (int i = 0; i < 100; i++)
-                progressBar1.Value++;
+                
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            new GraphForm().Show();
             this.Close();
         }
     }

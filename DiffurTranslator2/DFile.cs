@@ -54,12 +54,14 @@ namespace DiffurTranslator2
 
             try
             {
+                
                 FileOut = new StreamWriter(filename);
 
                 foreach (string str in CodeRTextBox.Lines)
                 {
                     FileOut.WriteLine(str);
                 }
+
             }
             catch (IOException exc)
             {

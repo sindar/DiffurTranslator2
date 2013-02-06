@@ -12,11 +12,16 @@ namespace DiffurTranslator2
    
     public partial class MainForm : Form
     {
+
+        public static string StartPath { get; set; }
         
-        public MainForm()
+        
+        public MainForm(string startpath)
         {
             InitializeComponent();
             DError.SetOutput(ref this.CodeRTextBox, ref this.DebugRTextBox);
+            StartPath = startpath;
+            DScan.InitKW();
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,7 +52,14 @@ namespace DiffurTranslator2
         private void button1_Click(object sender, EventArgs e)
         {
             DebugRTextBox.Clear();
-            DFile.SaveFile(DFile.CurrentFileName, ref CodeRTextBox);
+
+            if (DFile.CurrentFileName == "")
+            {
+                MessageBox.Show("Нечего транслировать! Сначала сохраните файл!");
+                return;
+            }
+            
+            DFile.SaveFile(OpenFileDialog1.FileName, ref CodeRTextBox);
             DText.ResetText();
             DScan.InitScan();
             DPars.Compile(ref LexRTextBox, ref CodeRTextBox);
@@ -58,12 +70,6 @@ namespace DiffurTranslator2
             if(DText.TrFile != null)
                 DText.CloseText();    
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            process1.Start();
-            
-        }
-                
+        
     }
 }

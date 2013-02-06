@@ -58,13 +58,12 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(559, 404);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Метод Рунге-Кутта";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.ImageLocation = " e:\\_sindar\\working\\VS2010\\DiffurTranslator2\\DiffurTranslator2\\bin\\Debug\\result\\g" +
-    "raf_ode.bmp";
+            this.pictureBox1.ImageLocation = "result\\graf_ode.bmp";
             this.pictureBox1.Location = new System.Drawing.Point(6, 6);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(547, 392);
@@ -80,13 +79,12 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(559, 404);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Метод Эйлера";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.ImageLocation = " e:\\_sindar\\working\\VS2010\\DiffurTranslator2\\DiffurTranslator2\\bin\\Debug\\result\\g" +
-    "raf_eu.bmp";
+            this.pictureBox2.ImageLocation = "result\\graf_eu.bmp";
             this.pictureBox2.Location = new System.Drawing.Point(6, 6);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(547, 392);

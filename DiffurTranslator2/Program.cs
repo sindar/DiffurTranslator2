@@ -15,8 +15,9 @@ namespace DiffurTranslator2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainForm MainWin = new MainForm();
+            MainForm MainWin = new MainForm(Application.StartupPath);
             Application.Run(MainWin);
+            
         }
     }
 }

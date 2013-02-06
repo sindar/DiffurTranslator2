@@ -16,14 +16,14 @@ namespace DiffurTranslator2
         public const char chEol = '\n';
         public const char chEot = '\0';
         
-        
         public static StreamReader TrFile { get; set; }
         
         public static char Ch{ get; set;}
         public static int Line { get; set; }
         public static int Pos { get; set; }
         public static int CodePos { get; set; }
-        public static int PosEol { get; set; }
+        public static int PrevLexPos { get; set; }
+        public static bool error = false;
                
         //Открытие файла для трансляции и установка начальной позиции
         public static void ResetText()
@@ -32,6 +32,7 @@ namespace DiffurTranslator2
             {
                 TrFile = new StreamReader(DFile.CurrentFileName);
             }
+
             catch (IOException exc)
             {
                 MessageBox.Show("Ошибка открытия файла!\n" + exc.Message);
@@ -50,30 +51,15 @@ namespace DiffurTranslator2
             TrFile.Close();
         }
 
-        /*procedure NextCh;
-          begin
-          if eof(f) then
-           Ch:=chEot
-
-           else
-            if eoln(f) then
-            begin
-            readln(f);
-            Line:=Line+1;
-            Ch:=chEol;
-            end
-
-            else
-            begin
-            read(f,Ch);
-            if Ch<> chTab  then
-            Pos:=Pos+1;
-            end;
-          end;*/
-
         //Чтение следующего символа
         public static void NextCh()
         {
+            
+            if (error)
+            {
+                TrFile.ReadToEnd();
+            }
+            
             if (TrFile.EndOfStream)
             {
                 Ch = chEot;

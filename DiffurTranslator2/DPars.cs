@@ -29,17 +29,8 @@ namespace DiffurTranslator2
         public static void Compile(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             Lexems.Clear();
-            
-            #region заглушка подсчёта количества лексем
-            /*int n = 0; 
-            while(DScan.Lex != tLex.lexEot)
-            {
-                n++;
-                Lexems.Text += DScan.Lex.ToString() + '\n';
-                DScan.NextLex();
-            }
-            MessageBox.Show("Количество лексем: " + n);*/
-            #endregion
+
+            DError.ErrorCounter = 0;
 
             Check(tLex.lexBegin, " 'Начало' ");
             Check(tLex.lexName, " имя программы ");
@@ -88,7 +79,7 @@ namespace DiffurTranslator2
                     Lexems.Text += sTemp + ";\n";
                 }
 
-                DFile.SaveFile("result\\t_funsys.m", ref Lexems);
+                DFile.SaveFile(MainForm.StartPath +  "\\result\\t_funsys.m", ref Lexems);
 
                 //-----------------funsys-------------------
                 #endregion
@@ -127,7 +118,7 @@ namespace DiffurTranslator2
                 Lexems.Text += "legend('x`1','x`2','x`3')\n";
                 Lexems.Text += "print('-dbmp','-r80','graf_ode.bmp')\n";
 
-                DFile.SaveFile("result\\t_ode.m", ref Lexems);
+                DFile.SaveFile(MainForm.StartPath +  "\\result\\t_ode.m", ref Lexems);
                 //-----------------ode-------------------
                 #endregion
                 
@@ -177,23 +168,21 @@ namespace DiffurTranslator2
                 Lexems.Text += "legend('x`1','x`2','x`3')\n";
                 Lexems.Text += "print('-dbmp','-r80','graf_eu.bmp')\n";
                 Lexems.Text += "end\n";
-                
-                DFile.SaveFile("result\\t_euler.m", ref Lexems);
-                #endregion
 
+                DFile.SaveFile(MainForm.StartPath + "\\result\\t_euler.m", ref Lexems);
+                #endregion
                 
                 MLApp.MLApp MatLabApp = new MLApp.MLApp();
-
-                MatLabApp.Execute("cd  e:\\_sindar\\working\\VS2010\\DiffurTranslator2\\DiffurTranslator2\\bin\\Debug\\result") ;
+                
+                MatLabApp.Execute("cd " + MainForm.StartPath + "\\result") ;
                 MatLabApp.Execute("t_ode");
                 MatLabApp.Execute("t_euler");
-
                 
                 WaitForm waitwin = new WaitForm();
                 waitwin.Show();
-
-                new GraphForm().Show();
                 
+                MatLabApp.Quit();
+
             }
 
             DText.CloseText();
@@ -201,13 +190,26 @@ namespace DiffurTranslator2
           
         public static void Check(tLex ExpLex, string sWord)
         {
+
+            if (DScan.Lex == tLex.lexInt && ExpLex == tLex.lexNum)
+            {
+                dCurNum = DScan.Num;
+                DScan.NextLex();
+                return;
+            }
+            
             if (DScan.Lex != ExpLex)
+            {
                 DError.Expected(sWord);
+            }
+
             else
             {
+                DText.PrevLexPos = DText.CodePos;
+
                 if (DScan.Lex == tLex.lexName || DScan.Lex == tLex.lexdxdt)
                     sCurName = DScan.Name + '\n';
-                
+
                 if (DScan.Lex == tLex.lexInt)
                     iCurIndex = (int)DScan.Num;
 
@@ -218,8 +220,20 @@ namespace DiffurTranslator2
             }
         }
 
+        public static bool CheckEotLex()
+        {
+            if (DScan.Lex == tLex.lexEot)
+            {
+                DScan.NextLex();
+                return true;
+            }
+            else
+                return false;
+        }
+
         public static void DeclEq()
         {
+            
             EqCounter = 0;
             
             while (DScan.Lex == tLex.lexdxdt)
@@ -270,6 +284,19 @@ namespace DiffurTranslator2
                 Check(tLex.lexAss, " = ");
                 Check(tLex.lexNum, " число ");
                 sTemp = dCurNum.ToString().Replace(',', '.');
+                
+                /*if (DScan.Lex == tLex.lexNum)
+                {
+                    sTemp = dCurNum.ToString().Replace(',', '.');
+                }
+                else if (DScan.Lex == tLex.lexInt)
+                {
+                    sTemp = iCurIndex.ToString();
+                }
+                else
+                    DError.Expected(" целое или вещественнное число ");*/
+
+                //DScan.NextLex();
                 Koefs[sCurName] = sTemp;
                 Check(tLex.lexSemi, " ';' ");
                 

@@ -7,3 +7,14 @@ D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\GenerateRe
 D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\GenerateResource.write.1.tlog
 D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.exe
 D:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.pdb
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Release\DiffurTranslator2.exe
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\bin\Release\DiffurTranslator2.pdb
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\Interop.MLApp.dll
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.csproj.ResolveComReference.cache
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.GraphForm.resources
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.MainForm.resources
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.Properties.Resources.resources
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.WaitForm.resources
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.csproj.GenerateResource.Cache
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.exe
+E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.pdb

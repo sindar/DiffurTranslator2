@@ -12,7 +12,7 @@ namespace DiffurTranslator2
                       lexStep, lexX0, lexFRpar, lexFLpar, lexColon, lexSemi, lexComma, lexDot, lexAss, 
                       lexOde45, lexEuler, lexPlot };
 
-    struct KWHash
+    public struct KWHash
     {
         public string Word;
         public tLex Lex;
@@ -195,6 +195,11 @@ namespace DiffurTranslator2
         public static void InitScan()
         {
             Name = "";
+            NextLex();
+        }
+
+        public static void InitKW()
+        {
             nkw = 0;
             EnterKW("Начало", tLex.lexBegin);
             EnterKW("Дано", tLex.lexGiven);
@@ -210,7 +215,6 @@ namespace DiffurTranslator2
             EnterKW("ode45", tLex.lexOde45);
             EnterKW("euler", tLex.lexEuler);
             EnterKW("plot", tLex.lexPlot);
-            NextLex();
         }
 
     }

@@ -21,13 +21,17 @@ namespace DiffurTranslator2
 
         public static void Errors(string msg)
         {
-            /*while (DText.Ch != DText.chEot && DText.Ch != DText.chEol)
-                DText.NextCh();*/
-            
-            ErrorOuptut.Text += (msg + ", cтрока = " + DText.Line + ", cтолбец = " + DText.Pos + '\n');
-            CodeInput.Focus();
-            CodeInput.Select(DText.CodePos-1, 2);
+
             ErrorCounter++;
+
+            if (ErrorCounter < 2)
+            {
+                ErrorOuptut.Text += (msg + ", cтрока = " + DText.Line + ", cтолбец = " + DText.Pos + '\n');
+                CodeInput.Focus();
+                CodeInput.Select(DText.PrevLexPos, 10);
+            }
+            
+
         }
 
         public static void Expected(string msg)
