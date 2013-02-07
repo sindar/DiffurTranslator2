@@ -26,3 +26,7 @@ E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\Inte
 E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.csproj.ResolveComReference.cache
 E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.GraphForm.resources
 E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.WaitForm.resources
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\Interop.MLApp.dll
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.csproj.ResolveComReference.cache
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.GraphForm.resources
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Debug\DiffurTranslator2.WaitForm.resources

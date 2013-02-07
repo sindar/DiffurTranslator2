@@ -63,7 +63,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.ImageLocation = "result\\graf_ode.bmp";
+            this.pictureBox1.ImageLocation = "..\\result\\graf_ode.bmp";
             this.pictureBox1.Location = new System.Drawing.Point(6, 6);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(547, 392);
@@ -84,7 +84,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.ImageLocation = "result\\graf_eu.bmp";
+            this.pictureBox2.ImageLocation = "..\\result\\graf_eu.bmp";
             this.pictureBox2.Location = new System.Drawing.Point(6, 6);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(547, 392);
