@@ -65,21 +65,21 @@
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.OpenToolStripMenuItem.Text = "Открыть";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.saveToolStripMenuItem.Text = "Сохранить";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.ExitToolStripMenuItem.Text = "Выход";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 

@@ -70,6 +70,6 @@ namespace DiffurTranslator2
             if(DText.TrFile != null)
                 DText.CloseText();    
         }
-        
+
     }
 }

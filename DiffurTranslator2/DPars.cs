@@ -84,7 +84,7 @@ namespace DiffurTranslator2
                 //-----------------funsys-------------------
                 #endregion
 
-                #region //-----------------ode-------------------
+                #region //-----------------ode45-------------------
                 sTemp = "";
 
                 Lexems.Clear();
@@ -118,8 +118,8 @@ namespace DiffurTranslator2
                 Lexems.Text += "legend('x`1','x`2','x`3')\n";
                 Lexems.Text += "print('-dbmp','-r80','graf_ode.bmp')\n";
 
-                DFile.SaveFile(MainForm.StartPath +  "\\result\\t_ode.m", ref Lexems);
-                //-----------------ode-------------------
+                DFile.SaveFile(MainForm.StartPath +  "\\result\\t_ode45.m", ref Lexems);
+                //-----------------ode45-------------------
                 #endregion
                 
                 #region//----------------euler-------------------
@@ -171,11 +171,51 @@ namespace DiffurTranslator2
 
                 DFile.SaveFile(MainForm.StartPath + "\\result\\t_euler.m", ref Lexems);
                 #endregion
+
+                #region //-----------------ode23-------------------
+                sTemp = "";
+
+                Lexems.Clear();
+                Lexems.Text += "function t_ode()\n";
+                Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',', '.') + ':' + max + "]\n";
+
+                j = Code.Text.IndexOf("x0");
+                do
+                {
+                    sTemp += Code.Text[j];
+                    j++;
+                } while (!Code.Text[j].Equals(']'));
+
+                Lexems.Text += sTemp + "];\n";
+                Lexems.Text += "[t,x]=ode23(@t_funsys,tspan,x0);\n";
+                Lexems.Text += "f = figure('Visible','off')\n";
+
+                sTemp = "";
+                j = 1;
+                foreach (object p in PlotParams)
+                {
+                    sTemp += p.ToString();
+                    if (j < PlotParams.Count)
+                        sTemp += ',';
+                    j++;
+                }
+
+                Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
+
+                Lexems.Text += "grid on\n";
+                Lexems.Text += "legend('x`1','x`2','x`3')\n";
+                Lexems.Text += "print('-dbmp','-r80','graf_ode23.bmp')\n";
+
+                DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode23.m", ref Lexems);
+                //-----------------ode23-------------------
+                #endregion
+                
                 
                 MLApp.MLApp MatLabApp = new MLApp.MLApp();
                 
                 MatLabApp.Execute("cd " + MainForm.StartPath + "\\result") ;
-                MatLabApp.Execute("t_ode");
+                MatLabApp.Execute("t_ode45");
+                MatLabApp.Execute("t_ode23");
                 MatLabApp.Execute("t_euler");
                 
                 WaitForm waitwin = new WaitForm();

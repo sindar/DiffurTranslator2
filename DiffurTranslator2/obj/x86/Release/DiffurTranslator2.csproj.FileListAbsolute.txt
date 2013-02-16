@@ -18,3 +18,7 @@ E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\Di
 E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.csproj.GenerateResource.Cache
 E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.exe
 E:\_sindar\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.pdb
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\Interop.MLApp.dll
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.csproj.ResolveComReference.cache
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.GraphForm.resources
+d:\working\VS2010\DiffurTranslator2\DiffurTranslator2\obj\x86\Release\DiffurTranslator2.WaitForm.resources

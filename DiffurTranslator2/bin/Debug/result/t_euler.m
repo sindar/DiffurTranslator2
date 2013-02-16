@@ -1,6 +1,6 @@
 function [ts,data]=t_euler()
-x0=[620;10;70];
-t0 =1; dt = 1; tn = 100;
+x0=[100;0;0];
+t0 =0; dt = 0.5; tn = 20;
 Nsteps = round(tn/dt)
 ts = zeros(Nsteps,1)
 data = zeros(Nsteps,length(x0))
