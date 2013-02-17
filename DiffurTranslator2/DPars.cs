@@ -20,9 +20,9 @@ namespace DiffurTranslator2
         static string plotstring="";
         static ArrayList PlotParams = new ArrayList();
         
-        static double min;
-        static double step;
-        static double max;
+        static string min;
+        static string step;
+        static string max;
 
         public static Hashtable Koefs = new Hashtable();
 
@@ -34,11 +34,11 @@ namespace DiffurTranslator2
 
             Check(tLex.lexBegin, " 'Начало' ");
             Check(tLex.lexName, " имя программы ");
-            Check(tLex.lexGiven, " 'Дано' ");
+            Check(tLex.lexGiven, " 'Уравнения' ");
             DeclEq();
             Check(tLex.lexKoef, " 'Коэффициенты' ");
             DeclKoef();
-            Check(tLex.lexCauchy, " 'Коши' ");
+            Check(tLex.lexCauchy, " 'Условия' ");
             DeclCauchy();
             Check(tLex.lexMethod, " 'Метод' ");
             DeclMethod();
@@ -49,174 +49,20 @@ namespace DiffurTranslator2
             
             if (DError.ErrorCounter == 0)
             {
-                string sTemp = "";
-                int j = 0;
+                GenFunSys(ref Lexems, ref Code);
+                GenEuler(ref Lexems, ref Code);
+                GenHeun(ref Lexems, ref Code);
+                GenOde23(ref Lexems, ref Code);
+                GenOde45(ref Lexems, ref Code);
 
-                #region//----------------funsys-------------------
-                Lexems.Text += "function dxdt=t_funsys(t,x);\n";
-                                
-                //коэффициенты
-                ICollection KoefKeys = Koefs.Keys;
-                
-                foreach(string koef in KoefKeys)
-                {
-                    sTemp = koef + "=" + Koefs[koef];
-                    Lexems.Text += sTemp + ";\n";
-                }
-
-                Lexems.Text += "\ndxdt=zeros(" + EqCounter + ", 1);\n\n";
-
-                //уравнения
-                for (int i = 1; i <= EqCounter; i++)
-                {
-                    sTemp = "";
-                    j = Code.Text.IndexOf("dxdt(" + i);
-                    do
-                    {
-                        sTemp += Code.Text[j];
-                        j++;
-                    } while (!Code.Text[j].Equals(';'));
-                    Lexems.Text += sTemp + ";\n";
-                }
-
-                DFile.SaveFile(MainForm.StartPath +  "\\result\\t_funsys.m", ref Lexems);
-
-                //-----------------funsys-------------------
-                #endregion
-
-                #region //-----------------ode45-------------------
-                sTemp = "";
-
-                Lexems.Clear();
-                Lexems.Text += "function t_ode()\n";
-                Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',','.') + ':' + max + "]\n";
-                
-                j = Code.Text.IndexOf("x0");
-                do
-                {
-                    sTemp += Code.Text[j];
-                    j++;
-                } while (!Code.Text[j].Equals(']'));
-
-                Lexems.Text += sTemp + "];\n";
-                Lexems.Text += "[t,x]=ode45(@t_funsys,tspan,x0);\n";
-                Lexems.Text += "f = figure('Visible','off')\n";
-
-                sTemp = "";
-                j = 1;
-                foreach (object p in PlotParams)
-                {
-                    sTemp += p.ToString();
-                    if (j < PlotParams.Count)
-                        sTemp += ',';
-                    j++;
-                }
-
-                Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
-
-                Lexems.Text += "grid on\n";
-                Lexems.Text += "legend('x`1','x`2','x`3')\n";
-                Lexems.Text += "print('-dbmp','-r80','graf_ode.bmp')\n";
-
-                DFile.SaveFile(MainForm.StartPath +  "\\result\\t_ode45.m", ref Lexems);
-                //-----------------ode45-------------------
-                #endregion
-                
-                #region//----------------euler-------------------
-                Lexems.Clear();
-                sTemp = "";
-                j = 0;
-
-                Lexems.Text += "function [ts,data]=t_euler()\n";
-
-                j = Code.Text.IndexOf("x0");
-                do
-                {
-                    sTemp += Code.Text[j];
-                    j++;
-                } while (!Code.Text[j].Equals(']'));
-
-                Lexems.Text += sTemp + "];\n";
-                Lexems.Text += "t0 =" + min + "; dt = " + step.ToString().Replace(',','.') + "; tn = " + max + ";\n";
-                Lexems.Text += "Nsteps = round(tn/dt)\n";
-                Lexems.Text += "ts = zeros(Nsteps,1)\n";
-                Lexems.Text += "data = zeros(Nsteps,length(x0))\n";
-                Lexems.Text += "ts(1) = t0\n"; 
-                Lexems.Text += "data(1,:) = x0'\n";
-                Lexems.Text += "for i =1:Nsteps\n";
-                Lexems.Text += "dxdt= feval(@t_funsys,t0,x0)\n";
-                Lexems.Text += "x0=x0+dxdt*dt\n";
-                Lexems.Text += "t0 = t0+dt\n";
-                Lexems.Text += "ts(i+1) = t0\n";
-                Lexems.Text += "data(i+1,:) = x0'\n";
-                Lexems.Text += "end\n";
-                Lexems.Text += "f = figure('Visible','off')\n";
-                
-                sTemp = "";
-                j = 1;
-                foreach (object p in PlotParams)
-                {
-                    sTemp += p.ToString();
-                    if (j < PlotParams.Count)
-                        sTemp += ',';
-                    j++;
-                }
-                
-                Lexems.Text += "plot (ts,data(:,[" + sTemp + "]),'lineWidth',3);\n";
-
-                Lexems.Text += "grid on\n";
-                Lexems.Text += "legend('x`1','x`2','x`3')\n";
-                Lexems.Text += "print('-dbmp','-r80','graf_eu.bmp')\n";
-                Lexems.Text += "end\n";
-
-                DFile.SaveFile(MainForm.StartPath + "\\result\\t_euler.m", ref Lexems);
-                #endregion
-
-                #region //-----------------ode23-------------------
-                sTemp = "";
-
-                Lexems.Clear();
-                Lexems.Text += "function t_ode()\n";
-                Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',', '.') + ':' + max + "]\n";
-
-                j = Code.Text.IndexOf("x0");
-                do
-                {
-                    sTemp += Code.Text[j];
-                    j++;
-                } while (!Code.Text[j].Equals(']'));
-
-                Lexems.Text += sTemp + "];\n";
-                Lexems.Text += "[t,x]=ode23(@t_funsys,tspan,x0);\n";
-                Lexems.Text += "f = figure('Visible','off')\n";
-
-                sTemp = "";
-                j = 1;
-                foreach (object p in PlotParams)
-                {
-                    sTemp += p.ToString();
-                    if (j < PlotParams.Count)
-                        sTemp += ',';
-                    j++;
-                }
-
-                Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
-
-                Lexems.Text += "grid on\n";
-                Lexems.Text += "legend('x`1','x`2','x`3')\n";
-                Lexems.Text += "print('-dbmp','-r80','graf_ode23.bmp')\n";
-
-                DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode23.m", ref Lexems);
-                //-----------------ode23-------------------
-                #endregion
-                
-                
                 MLApp.MLApp MatLabApp = new MLApp.MLApp();
                 
                 MatLabApp.Execute("cd " + MainForm.StartPath + "\\result") ;
-                MatLabApp.Execute("t_ode45");
-                MatLabApp.Execute("t_ode23");
+                MatLabApp.Visible = 1;
                 MatLabApp.Execute("t_euler");
+                MatLabApp.Execute("t_heun");
+                MatLabApp.Execute("t_ode23");
+                MatLabApp.Execute("t_ode45");
                 
                 WaitForm waitwin = new WaitForm();
                 waitwin.Show();
@@ -325,18 +171,6 @@ namespace DiffurTranslator2
                 Check(tLex.lexNum, " число ");
                 sTemp = dCurNum.ToString().Replace(',', '.');
                 
-                /*if (DScan.Lex == tLex.lexNum)
-                {
-                    sTemp = dCurNum.ToString().Replace(',', '.');
-                }
-                else if (DScan.Lex == tLex.lexInt)
-                {
-                    sTemp = iCurIndex.ToString();
-                }
-                else
-                    DError.Expected(" целое или вещественнное число ");*/
-
-                //DScan.NextLex();
                 Koefs[sCurName] = sTemp;
                 Check(tLex.lexSemi, " ';' ");
                 
@@ -350,21 +184,28 @@ namespace DiffurTranslator2
 
         public static void DeclCauchy()
         {
+            string sTemp = "";
+            
             Check(tLex.lexTspan, " tspan(промежуток интегрирования ");
             Check(tLex.lexAss, " = ");
             Check(tLex.lexQLpar, " [ ");
             Check(tLex.lexNum, " число ");
-            min = dCurNum;
+            sTemp = dCurNum.ToString().Replace(',', '.');
+            min = sTemp;
+
             Check(tLex.lexComma, " ',' ");
             Check(tLex.lexNum, " число ");
-            max = dCurNum;
+            sTemp = dCurNum.ToString().Replace(',', '.');
+            max = sTemp;
+
             Check(tLex.lexQRpar, " ] ");
             Check(tLex.lexSemi, " ; ");
             
             Check(tLex.lexStep, " step(шаг интегрирования) ");
             Check(tLex.lexAss, " = ");
             Check(tLex.lexNum, " число ");
-            step = dCurNum;
+            sTemp = dCurNum.ToString().Replace(',', '.');
+            step = sTemp;
             Check(tLex.lexSemi, " ; ");
             
             Check(tLex.lexX0, " x0(начальные условия) ");
@@ -517,17 +358,15 @@ namespace DiffurTranslator2
         public static void Name()
         {
             if (sCurName == "x")
-            {
-                Variable();
-            }
+                Variable_x();
+            else if (sCurName == "t")
+                Variable_t();
             else
-            {
                 Koef();
-            }
             
         }
 
-        public static void Variable()
+        public static void Variable_x()
         {
             DScan.NextLex();
             if (DScan.Lex != tLex.lexOper && DScan.Lex != tLex.lexPow && DScan.Lex != tLex.lexLpar)
@@ -556,6 +395,13 @@ namespace DiffurTranslator2
 
         }
 
+        public static void Variable_t()
+        {
+            DScan.NextLex();
+            if (DScan.Lex != tLex.lexOper && DScan.Lex != tLex.lexRpar && DScan.Lex != tLex.lexSemi)
+                DError.Expected(" математическая операция(+, -, *, /,), правая скобка или ;");
+        }
+
         public static void Koef()
         {
             if (sCurName.Length > 1)
@@ -580,6 +426,232 @@ namespace DiffurTranslator2
                 DScan.Lex != tLex.lexNum && DScan.Lex != tLex.lexInt)
                 DError.Expected(" переменная, коэффициент, число или левая скобка) ");
         }
-       
+
+        public static void GenFunSys(ref RichTextBox Lexems, ref RichTextBox Code)
+        {
+
+            string sTemp = "";
+            int j = 0;
+
+            Lexems.Clear();
+            Lexems.Text += "function dxdt=t_funsys(t,x);\n";
+
+            //коэффициенты
+            ICollection KoefKeys = Koefs.Keys;
+
+            foreach (string koef in KoefKeys)
+            {
+                sTemp = koef + "=" + Koefs[koef];
+                Lexems.Text += sTemp + ";\n";
+            }
+
+            Lexems.Text += "\ndxdt=zeros(" + EqCounter + ", 1);\n\n";
+
+            //уравнения
+            for (int i = 1; i <= EqCounter; i++)
+            {
+                sTemp = "";
+                j = Code.Text.IndexOf("dxdt(" + i);
+                do
+                {
+                    sTemp += Code.Text[j];
+                    j++;
+                } while (!Code.Text[j].Equals(';'));
+                Lexems.Text += sTemp + ";\n";
+            }
+
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_funsys.m", ref Lexems);
+
+        }
+
+        public static void GenEuler(ref RichTextBox Lexems, ref RichTextBox Code)
+        {
+            string sTemp = "";
+            int j = 0;
+            
+            Lexems.Clear();
+            Lexems.Text += "function [ts,data]=t_euler()\n";
+
+            j = Code.Text.IndexOf("x0");
+            do
+            {
+                sTemp += Code.Text[j];
+                j++;
+            } while (!Code.Text[j].Equals(']'));
+
+            Lexems.Text += sTemp + "];\n";
+            Lexems.Text += "t0 =" + min + "; dt = " + step.ToString().Replace(',', '.') + "; tn = " + max + ";\n";
+            Lexems.Text += "Nsteps = round(tn/dt)\n";
+            Lexems.Text += "ts = zeros(Nsteps,1)\n";
+            Lexems.Text += "data = zeros(Nsteps,length(x0))\n";
+            Lexems.Text += "ts(1) = t0\n";
+            Lexems.Text += "data(1,:) = x0'\n";
+            Lexems.Text += "for i =1:Nsteps\n";
+            Lexems.Text += "dxdt= feval(@t_funsys,t0,x0)\n";
+            Lexems.Text += "x0=x0+dxdt*dt\n";
+            Lexems.Text += "t0 = t0+dt\n";
+            Lexems.Text += "ts(i+1) = t0\n";
+            Lexems.Text += "data(i+1,:) = x0'\n";
+            Lexems.Text += "end\n";
+            Lexems.Text += "f = figure('Visible','off')\n";
+
+            sTemp = "";
+            j = 1;
+            foreach (object p in PlotParams)
+            {
+                sTemp += p.ToString();
+                if (j < PlotParams.Count)
+                    sTemp += ',';
+                j++;
+            }
+
+            Lexems.Text += "plot (ts,data(:,[" + sTemp + "]),'lineWidth',3);\n";
+
+            Lexems.Text += "grid on\n";
+            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            Lexems.Text += "print('-dbmp','-r80','graf_eu.bmp')\n";
+            Lexems.Text += "end\n";
+
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_euler.m", ref Lexems);
+
+        }
+
+        public static void GenHeun(ref RichTextBox Lexems, ref RichTextBox Code)
+        {
+            string sTemp = "";
+            int j = 0;
+
+            Lexems.Clear();
+            Lexems.Text += "function [ts,data]=t_heun()\n";
+
+            j = Code.Text.IndexOf("x0");
+            do
+            {
+                sTemp += Code.Text[j];
+                j++;
+            } while (!Code.Text[j].Equals(']'));
+
+            Lexems.Text += sTemp + "];\n";
+            Lexems.Text += "t0 =" + min + "; dt = " + step.ToString().Replace(',', '.') + "; tn = " + max + ";\n";
+            Lexems.Text += "Nsteps = round(tn/dt)\n";
+            Lexems.Text += "ts = zeros(Nsteps,1)\n";
+            Lexems.Text += "data = zeros(Nsteps,length(x0))\n";
+            Lexems.Text += "ts(1) = t0\n";
+            Lexems.Text += "data(1,:) = x0'\n";
+            Lexems.Text += "t1 = 0'\n";
+            Lexems.Text += "for i =1:Nsteps\n";
+                        
+            Lexems.Text += "dxdt= feval(@t_funsys,t0,x0)\n";
+            Lexems.Text += "dxdt1= feval(@t_funsys,t1,x0+dt*dxdt)\n";
+            
+            Lexems.Text += "x0=x0+(dt/2)*(dxdt+dxdt1);\n";
+            Lexems.Text += "t0 = t0+dt\n";
+            Lexems.Text += "ts(i+1) = t0\n";
+            Lexems.Text += "data(i+1,:) = x0'\n";
+            Lexems.Text += "end\n";
+            Lexems.Text += "f = figure('Visible','off')\n";
+
+            
+            sTemp = "";
+            j = 1;
+            foreach (object p in PlotParams)
+            {
+                sTemp += p.ToString();
+                if (j < PlotParams.Count)
+                    sTemp += ',';
+                j++;
+            }
+
+            Lexems.Text += "plot (ts,data(:,[" + sTemp + "]),'lineWidth',3);\n";
+
+            Lexems.Text += "grid on\n";
+            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            Lexems.Text += "print('-dbmp','-r80','graf_heun.bmp')\n";
+            Lexems.Text += "end\n";
+
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_heun.m", ref Lexems);
+
+        }
+
+        public static void GenOde23(ref RichTextBox Lexems, ref RichTextBox Code)
+        {
+            string sTemp = "";
+            int j = 0;
+
+            Lexems.Clear();
+            Lexems.Text += "function t_ode23()\n";
+            Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',', '.') + ':' + max + "]\n";
+
+            j = Code.Text.IndexOf("x0");
+            do
+            {
+                sTemp += Code.Text[j];
+                j++;
+            } while (!Code.Text[j].Equals(']'));
+
+            Lexems.Text += sTemp + "];\n";
+            Lexems.Text += "[t,x]=ode23(@t_funsys,tspan,x0);\n";
+            Lexems.Text += "f = figure('Visible','off')\n";
+
+            sTemp = "";
+            j = 1;
+            foreach (object p in PlotParams)
+            {
+                sTemp += p.ToString();
+                if (j < PlotParams.Count)
+                    sTemp += ',';
+                j++;
+            }
+
+            Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
+
+            Lexems.Text += "grid on\n";
+            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            Lexems.Text += "print('-dbmp','-r80','graf_ode23.bmp')\n";
+
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode23.m", ref Lexems);
+            
+        }
+
+        public static void GenOde45(ref RichTextBox Lexems, ref RichTextBox Code)
+        {
+            string sTemp = "";
+            int j = 0;
+
+            Lexems.Clear();
+            Lexems.Text += "function t_ode45()\n";
+            Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',', '.') + ':' + max + "]\n";
+
+            j = Code.Text.IndexOf("x0");
+            do
+            {
+                sTemp += Code.Text[j];
+                j++;
+            } while (!Code.Text[j].Equals(']'));
+
+            Lexems.Text += sTemp + "];\n";
+            Lexems.Text += "[t,x]=ode45(@t_funsys,tspan,x0);\n";
+            Lexems.Text += "f = figure('Visible','off')\n";
+
+            sTemp = "";
+            j = 1;
+            foreach (object p in PlotParams)
+            {
+                sTemp += p.ToString();
+                if (j < PlotParams.Count)
+                    sTemp += ',';
+                j++;
+            }
+
+            Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
+
+            Lexems.Text += "grid on\n";
+            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            Lexems.Text += "print('-dbmp','-r80','graf_ode45.bmp')\n";
+
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode45.m", ref Lexems);
+
+        }
+
     }
 }

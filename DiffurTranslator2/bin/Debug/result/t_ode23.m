@@ -1,5 +1,5 @@
-function t_ode()
-tspan=[0:0.5:20]
+function t_ode23()
+tspan=[0:0.25:10]
 x0=[100;0;0];
 [t,x]=ode23(@t_funsys,tspan,x0);
 f = figure('Visible','off')

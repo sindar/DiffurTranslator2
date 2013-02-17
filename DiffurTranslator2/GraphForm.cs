@@ -14,6 +14,11 @@ namespace DiffurTranslator2
         public GraphForm()
         {
             InitializeComponent();
+            pictureBox1.ImageLocation = MainForm.StartPath + "\\result\\graf_eu.bmp";
+            pictureBox2.ImageLocation = MainForm.StartPath + "\\result\\graf_ode23.bmp";
+            pictureBox3.ImageLocation = MainForm.StartPath + "\\result\\graf_ode45.bmp";
+            pictureBox4.ImageLocation = MainForm.StartPath + "\\result\\graf_heun.bmp";
+            int i = 0;
         }
 
     }

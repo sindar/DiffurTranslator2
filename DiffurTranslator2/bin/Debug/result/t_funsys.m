@@ -1,8 +1,8 @@
 function dxdt=t_funsys(t,x);
-a=0.2;
-b=0.25;
-c=0.8;
-d=1.22;
+a=0.9;
+b=0.3;
+c=0.45;
+d=0.3;
 
 dxdt=zeros(3, 1);
 

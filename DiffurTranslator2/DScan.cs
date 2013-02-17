@@ -163,7 +163,7 @@ namespace DiffurTranslator2
                     break;
                 case '^':
                     DText.NextCh();
-                    Lex = tLex.lexPow;
+                    Lex = tLex.lexOper;
                     break;
                 case ';':
                     DText.NextCh();
@@ -202,9 +202,9 @@ namespace DiffurTranslator2
         {
             nkw = 0;
             EnterKW("Начало", tLex.lexBegin);
-            EnterKW("Дано", tLex.lexGiven);
+            EnterKW("Уравнения", tLex.lexGiven);
             EnterKW("Коэффициенты", tLex.lexKoef);
-            EnterKW("Коши", tLex.lexCauchy);
+            EnterKW("Условия", tLex.lexCauchy);
             EnterKW("Метод", tLex.lexMethod);
             EnterKW("Вывести", tLex.lexGet);
             EnterKW("Конец", tLex.lexEnd);
