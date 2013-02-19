@@ -28,10 +28,9 @@ namespace DiffurTranslator2
             {
                 ErrorOuptut.Text += (msg + ", cтрока = " + DText.Line + ", cтолбец = " + DText.Pos + '\n');
                 CodeInput.Focus();
-                CodeInput.Select(DText.PrevLexPos, 10);
+                CodeInput.Select(DText.PrevLexPos, 20);
             }
             
-
         }
 
         public static void Expected(string msg)

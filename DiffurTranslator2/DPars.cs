@@ -19,6 +19,7 @@ namespace DiffurTranslator2
         static char CurCh = '0';
         static string plotstring="";
         static ArrayList PlotParams = new ArrayList();
+        public static ArrayList Methods = new ArrayList();
         
         static string min;
         static string step;
@@ -34,6 +35,7 @@ namespace DiffurTranslator2
 
             Check(tLex.lexBegin, " 'Начало' ");
             Check(tLex.lexName, " имя программы ");
+            Check(tLex.lexSemi, " ; ");
             Check(tLex.lexGiven, " 'Уравнения' ");
             DeclEq();
             Check(tLex.lexKoef, " 'Коэффициенты' ");
@@ -50,20 +52,36 @@ namespace DiffurTranslator2
             if (DError.ErrorCounter == 0)
             {
                 GenFunSys(ref Lexems, ref Code);
-                GenEuler(ref Lexems, ref Code);
-                GenHeun(ref Lexems, ref Code);
-                GenOde23(ref Lexems, ref Code);
-                GenOde45(ref Lexems, ref Code);
-
+                
                 MLApp.MLApp MatLabApp = new MLApp.MLApp();
                 
                 MatLabApp.Execute("cd " + MainForm.StartPath + "\\result") ;
                 MatLabApp.Visible = 1;
-                MatLabApp.Execute("t_euler");
-                MatLabApp.Execute("t_heun");
-                MatLabApp.Execute("t_ode23");
-                MatLabApp.Execute("t_ode45");
-                
+
+                if (Methods.Contains("euler"))
+                {
+                    GenEuler(ref Lexems, ref Code);
+                    MatLabApp.Execute("t_euler");
+                }
+
+                if (Methods.Contains("heun"))
+                {
+                    GenHeun(ref Lexems, ref Code);
+                    MatLabApp.Execute("t_heun");
+                }
+
+                if (Methods.Contains("ode23"))
+                {
+                    GenOde23(ref Lexems, ref Code);
+                    MatLabApp.Execute("t_ode23");
+                }
+
+                if (Methods.Contains("ode45"))
+                {
+                    GenOde45(ref Lexems, ref Code);
+                    MatLabApp.Execute("t_ode45");
+                }
+
                 WaitForm waitwin = new WaitForm();
                 waitwin.Show();
                 
@@ -156,7 +174,7 @@ namespace DiffurTranslator2
             KoefCounter = 0;
             string sTemp = "";
 
-            while (DScan.Lex == tLex.lexName)
+            while (DScan.Lex == tLex.lexName && KoefCounter <= Koefs.Count)
             {
                 sCurName = DScan.Name;
                 KoefCounter++;
@@ -168,8 +186,14 @@ namespace DiffurTranslator2
                 }
                 DScan.NextLex();
                 Check(tLex.lexAss, " = ");
+
+                sTemp = "";
+
+                if (CheckMinus())
+                    sTemp += "-";
+                
                 Check(tLex.lexNum, " число ");
-                sTemp = dCurNum.ToString().Replace(',', '.');
+                sTemp += dCurNum.ToString().Replace(',', '.');
                 
                 Koefs[sCurName] = sTemp;
                 Check(tLex.lexSemi, " ';' ");
@@ -180,6 +204,11 @@ namespace DiffurTranslator2
             {
                 DError.Expected(" коэффициент ");
             }
+
+            if (KoefCounter > Koefs.Count)
+            {
+                DError.Errors(" коэффициентов не может быть больше чем в уравнениях " );
+            }
         }
 
         public static void DeclCauchy()
@@ -189,13 +218,23 @@ namespace DiffurTranslator2
             Check(tLex.lexTspan, " tspan(промежуток интегрирования ");
             Check(tLex.lexAss, " = ");
             Check(tLex.lexQLpar, " [ ");
+
+            sTemp = "";
+            if (CheckMinus())
+                sTemp += "-";
+
             Check(tLex.lexNum, " число ");
-            sTemp = dCurNum.ToString().Replace(',', '.');
+            sTemp += dCurNum.ToString().Replace(',', '.');
             min = sTemp;
 
             Check(tLex.lexComma, " ',' ");
+
+            sTemp = "";
+            if (CheckMinus())
+                sTemp += "-";
+                        
             Check(tLex.lexNum, " число ");
-            sTemp = dCurNum.ToString().Replace(',', '.');
+            sTemp += dCurNum.ToString().Replace(',', '.');
             max = sTemp;
 
             Check(tLex.lexQRpar, " ] ");
@@ -203,8 +242,13 @@ namespace DiffurTranslator2
             
             Check(tLex.lexStep, " step(шаг интегрирования) ");
             Check(tLex.lexAss, " = ");
+
+            sTemp = "";
+            if (CheckMinus())
+                sTemp += "-";
+
             Check(tLex.lexNum, " число ");
-            sTemp = dCurNum.ToString().Replace(',', '.');
+            sTemp += dCurNum.ToString().Replace(',', '.');
             step = sTemp;
             Check(tLex.lexSemi, " ; ");
             
@@ -214,6 +258,10 @@ namespace DiffurTranslator2
 
             for (int i = 1; i <= EqCounter; i++)
             {
+                sTemp = "";
+                if (CheckMinus())
+                    sTemp += "-";
+                
                 Check(tLex.lexNum, " число ");
                 if(i < EqCounter)
                     Check(tLex.lexSemi, " ; ");
@@ -226,18 +274,96 @@ namespace DiffurTranslator2
 
         public static void DeclMethod()
         {
-         
-            if (DScan.Lex != tLex.lexEuler && DScan.Lex != tLex.lexOde45)
-                DError.Expected(" 1 или 2 численных метода - ode45(Рунге-Кутта), euler(Эйлера)");
-            else if (DScan.Lex == tLex.lexEuler)
-            {
-                CheckEuler();
-            }
-            else if (DScan.Lex == tLex.lexOde45)
-            {
-                CheckOde45();
-            }
 
+            Methods.Clear();
+
+            int i;
+
+            for (i = 1; i < 5; i++)
+            {
+                if (DScan.Lex != tLex.lexEuler && DScan.Lex != tLex.lexHeun
+                  && DScan.Lex != tLex.lexOde23 && DScan.Lex != tLex.lexOde45 && DScan.Lex != tLex.lexSemi)
+                {
+                    DError.Expected(" численный метод - euler(Эйлера), heun(Гюна), ode23(Рунге-Кутта 2-го порядка, ode45(Рунге-Кутта 4-го порядка) или ';' ");
+                    break;
+                }
+                else if (DScan.Lex == tLex.lexSemi)
+                    break;
+                else
+                {
+                    if (CheckMethod(tLex.lexEuler, "euler"))
+                    {
+                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        {
+                            DError.Expected(" ',' или ';' ");
+                            break;
+                        }
+
+                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                            DScan.NextLex();
+
+                        continue;
+                    }
+
+                    if (CheckMethod(tLex.lexHeun, "heun"))
+                    {
+                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        {
+                            DError.Expected(" ',' или ';' ");
+                            break;
+                        }
+
+                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                            DScan.NextLex();
+
+                        continue;
+                    }
+
+                    if (CheckMethod(tLex.lexOde23, "ode23"))
+                    {
+                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        {
+                            DError.Expected(" ',' или ';' ");
+                            break;
+                        }
+
+                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                            DScan.NextLex();
+
+                        continue;
+                    }
+
+                    if (CheckMethod(tLex.lexOde45, "ode45"))
+                    {
+                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        {
+                            DError.Expected(" ',' или ';' ");
+                            break;
+                        }
+
+                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                            DScan.NextLex();
+
+                        continue;
+                    }
+                }
+            }
+            
+            Check(tLex.lexSemi, " ';' ");
+
+        }
+            
+        public static bool CheckMethod(tLex tMethod, string sMethod)
+        {
+            if (DScan.Lex == tMethod && !Methods.Contains(sMethod))
+            {
+                Methods.Add(sMethod);
+                DScan.NextLex();
+                return true;
+            }
+            else if (DScan.Lex == tMethod && Methods.Contains(sMethod))
+                DError.Errors(" данный метод уже есть в списке ");
+            return false;
         }
 
         public static void DeclPlot()
@@ -258,38 +384,6 @@ namespace DiffurTranslator2
 
             Check(tLex.lexQRpar, " ] ");
             Check(tLex.lexSemi, " ; ");
-        }
-
-        public static void CheckEuler()
-        {
-            DScan.NextLex();
-            if (DScan.Lex == tLex.lexSemi)
-                return;
-            else if (DScan.Lex == tLex.lexComma)
-            {
-                DScan.NextLex();
-                Check(tLex.lexOde45, " ode45(метод Рунге-Кутта) ");
-                Check(tLex.lexSemi, " ';' ");
-                return;
-            }
-            else
-                DError.Expected(" ',' или ';' ");
-        }
-
-        public static void CheckOde45()
-        {
-            DScan.NextLex();
-            if (DScan.Lex == tLex.lexSemi)
-                return;
-            else if (DScan.Lex == tLex.lexComma)
-            {
-                DScan.NextLex();
-                Check(tLex.lexEuler, " ode45(метод Рунге-Кутта) ");
-                Check(tLex.lexSemi, " ';' ");
-                return;
-            }
-            else
-                DError.Expected(" ',' или ';' ");
         }
 
         public static void Expression()
@@ -427,6 +521,21 @@ namespace DiffurTranslator2
                 DError.Expected(" переменная, коэффициент, число или левая скобка) ");
         }
 
+        public static bool CheckMinus()
+        {
+            if (DScan.Lex == tLex.lexOper)
+            {
+                if (DScan.Oper == tOper.Minus)
+                {
+                    DScan.NextLex();
+                    return true;
+                }
+                else
+                    DError.Expected(" положительное или отрицательное число ");
+            }
+            return false;
+        }
+
         public static void GenFunSys(ref RichTextBox Lexems, ref RichTextBox Code)
         {
 
@@ -508,7 +617,10 @@ namespace DiffurTranslator2
             Lexems.Text += "plot (ts,data(:,[" + sTemp + "]),'lineWidth',3);\n";
 
             Lexems.Text += "grid on\n";
-            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            
+            if(MainForm.bLegendChecked)
+                Lexems.Text += "legend('x`1','x`2','x`3')\n";
+
             Lexems.Text += "print('-dbmp','-r80','graf_eu.bmp')\n";
             Lexems.Text += "end\n";
 
@@ -565,7 +677,10 @@ namespace DiffurTranslator2
             Lexems.Text += "plot (ts,data(:,[" + sTemp + "]),'lineWidth',3);\n";
 
             Lexems.Text += "grid on\n";
-            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            
+            if (MainForm.bLegendChecked)
+                Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            
             Lexems.Text += "print('-dbmp','-r80','graf_heun.bmp')\n";
             Lexems.Text += "end\n";
 
@@ -606,7 +721,10 @@ namespace DiffurTranslator2
             Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
 
             Lexems.Text += "grid on\n";
-            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+
+            if (MainForm.bLegendChecked)
+                Lexems.Text += "legend('x`1','x`2','x`3')\n";
+
             Lexems.Text += "print('-dbmp','-r80','graf_ode23.bmp')\n";
 
             DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode23.m", ref Lexems);
@@ -646,7 +764,10 @@ namespace DiffurTranslator2
             Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
 
             Lexems.Text += "grid on\n";
-            Lexems.Text += "legend('x`1','x`2','x`3')\n";
+            
+            if (MainForm.bLegendChecked)
+                Lexems.Text += "legend('x`1','x`2','x`3')\n";
+
             Lexems.Text += "print('-dbmp','-r80','graf_ode45.bmp')\n";
 
             DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode45.m", ref Lexems);

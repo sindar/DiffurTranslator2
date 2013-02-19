@@ -10,7 +10,9 @@ namespace DiffurTranslator2
     public enum tLex {lexEot, lexBegin, lexGiven, lexKoef, lexCauchy, lexMethod, lexGet, lexEnd, lexdxdt,
                       lexName, lexNum, lexInt, lexRpar, lexLpar, lexQRpar, lexQLpar, lexOper, lexPow, lexTspan,
                       lexStep, lexX0, lexFRpar, lexFLpar, lexColon, lexSemi, lexComma, lexDot, lexAss, 
-                      lexOde45, lexEuler, lexPlot };
+                      lexEuler, lexHeun, lexOde23, lexOde45, lexPlot };
+
+    public enum tOper { Minus, Plus, Pow, Multi, Div };
 
     public struct KWHash
     {
@@ -26,8 +28,9 @@ namespace DiffurTranslator2
         public static string Name { get; set; }
         public static double Num { get; set; }
         public static int LexPos { get; set; }
-
-        public const int KWNum = 14;
+        public static tOper Oper { get; set; }
+        
+        public const int KWNum = 16;
                 
         private static int nkw;//номер ключевого слова
 
@@ -148,22 +151,27 @@ namespace DiffurTranslator2
                 case '+':
                     DText.NextCh();
                     Lex = tLex.lexOper;
+                    Oper = tOper.Plus;
                     break;
                 case '-':
                     DText.NextCh();
                     Lex = tLex.lexOper;
+                    Oper = tOper.Minus;
                     break;
                 case '*':
                     DText.NextCh();
                     Lex = tLex.lexOper;
+                    Oper = tOper.Multi;
                     break;
                 case '/':
                     DText.NextCh();
                     Lex = tLex.lexOper;
+                    Oper = tOper.Div;
                     break;
                 case '^':
                     DText.NextCh();
                     Lex = tLex.lexOper;
+                    Oper = tOper.Pow;
                     break;
                 case ';':
                     DText.NextCh();
@@ -212,8 +220,10 @@ namespace DiffurTranslator2
             EnterKW("tspan", tLex.lexTspan);
             EnterKW("step", tLex.lexStep);
             EnterKW("x0", tLex.lexX0);
-            EnterKW("ode45", tLex.lexOde45);
             EnterKW("euler", tLex.lexEuler);
+            EnterKW("heun", tLex.lexHeun);
+            EnterKW("ode23", tLex.lexOde23);
+            EnterKW("ode45", tLex.lexOde45);
             EnterKW("plot", tLex.lexPlot);
         }
 

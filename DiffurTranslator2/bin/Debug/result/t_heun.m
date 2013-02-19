@@ -1,6 +1,6 @@
 function [ts,data]=t_heun()
 x0=[100;0;0];
-t0 =0; dt = 0.25; tn = 10;
+t0 =0; dt = 0.5; tn = 10;
 Nsteps = round(tn/dt)
 ts = zeros(Nsteps,1)
 data = zeros(Nsteps,length(x0))

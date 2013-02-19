@@ -14,7 +14,7 @@ namespace DiffurTranslator2
     {
 
         public static string StartPath { get; set; }
-        
+        public static bool bLegendChecked { get; set; }
         
         public MainForm(string startpath)
         {
@@ -22,6 +22,23 @@ namespace DiffurTranslator2
             DError.SetOutput(ref this.CodeRTextBox, ref this.DebugRTextBox);
             StartPath = startpath;
             DScan.InitKW();
+            bLegendChecked = LegendToolStripMenuItem.Checked;
+        }
+
+        public void Translate()
+        {
+            DebugRTextBox.Clear();
+
+            if (DFile.CurrentFileName == "")
+            {
+                MessageBox.Show("Нечего транслировать! Сначала сохраните файл!");
+                return;
+            }
+
+            DFile.SaveFile(OpenFileDialog1.FileName, ref CodeRTextBox);
+            DText.ResetText();
+            DScan.InitScan();
+            DPars.Compile(ref LexRTextBox, ref CodeRTextBox);
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -49,26 +66,22 @@ namespace DiffurTranslator2
             DFile.SaveFile(SaveFileDialog1.FileName, ref CodeRTextBox);
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DebugRTextBox.Clear();
-
-            if (DFile.CurrentFileName == "")
-            {
-                MessageBox.Show("Нечего транслировать! Сначала сохраните файл!");
-                return;
-            }
-            
-            DFile.SaveFile(OpenFileDialog1.FileName, ref CodeRTextBox);
-            DText.ResetText();
-            DScan.InitScan();
-            DPars.Compile(ref LexRTextBox, ref CodeRTextBox);
-        }
+       
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if(DText.TrFile != null)
                 DText.CloseText();    
+        }
+
+        private void TranslateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Translate();
+        }
+
+        private void LegendToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            bLegendChecked = LegendToolStripMenuItem.Checked;
         }
 
     }

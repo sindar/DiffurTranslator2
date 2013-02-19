@@ -33,7 +33,9 @@ namespace DiffurTranslator2
             {
                 while (!FileIn.EndOfStream)
                 {
-                    CodeRTextBox.Text += FileIn.ReadLine() + '\n';
+                    CodeRTextBox.Text += FileIn.ReadLine(); 
+                    if (!FileIn.EndOfStream)
+                        CodeRTextBox.Text += '\n'; 
                 }
             }
             catch (IOException exc)
