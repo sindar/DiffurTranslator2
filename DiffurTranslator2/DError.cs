@@ -40,7 +40,8 @@ namespace DiffurTranslator2
 
         public static void Warning()
         {
-
         }
+
+
     }
 }

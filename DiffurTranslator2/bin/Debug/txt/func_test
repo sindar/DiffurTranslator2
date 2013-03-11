@@ -1,18 +1,16 @@
 Начало Volterra;
 Уравнения
-  dxdt(1)=sin(t);
-  dxdt(2)=cos(t);
+  dxdt(1)=sin(cos(t))+a;
+  dxdt(2)=cos(t-(t)+t-x(1))*b;
 Коэффициенты
   a = 2;
-  b = 0.02;
-  c = 6;
-  d = 0.01;
+  b = 2;
 Условия
-  tspan=[0,5];
-  step=0.0415;
-  x0=[2000;4];
+  tspan=[-20,20];
+  step=0.25;
+  x0=[0;0];
 Метод
-  heun, ode45;
+  euler, heun, ode45, ode23;
 Вывести
   plot[1,2];
 Конец

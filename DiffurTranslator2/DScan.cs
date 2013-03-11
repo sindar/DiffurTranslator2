@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace DiffurTranslator2
 {
-    public enum tLex {lexEot, lexBegin, lexGiven, lexKoef, lexCauchy, lexMethod, lexGet, lexEnd, lexdxdt,
+    public enum tLex {lexEot, lexBegin, lexGiven, lexKoef, lexCauchy, lexMethod, lexGet, lexEnd, lexdxdt, lexFun,
                       lexName, lexNum, lexInt, lexRpar, lexLpar, lexQRpar, lexQLpar, lexOper, lexPow, lexTspan,
                       lexStep, lexX0, lexFRpar, lexFLpar, lexColon, lexSemi, lexComma, lexDot, lexAss, 
                       lexEuler, lexHeun, lexOde23, lexOde45, lexPlot };
@@ -50,6 +50,8 @@ namespace DiffurTranslator2
                 i--;
             if (i >= 0)
                 return KWTable[i].Lex;
+            else if (Name == "sin" || Name == "cos" || Name == "tan" || Name == "cot")
+                return tLex.lexFun;
             else
                 return tLex.lexName;
         }
@@ -226,6 +228,5 @@ namespace DiffurTranslator2
             EnterKW("ode45", tLex.lexOde45);
             EnterKW("plot", tLex.lexPlot);
         }
-
     }
 }

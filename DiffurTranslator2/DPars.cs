@@ -25,8 +25,11 @@ namespace DiffurTranslator2
         static string step;
         static string max;
 
+        static int debug_conuter;
+
         public static Hashtable Koefs = new Hashtable();
 
+        //Главная функция компиляции, запускающая все остальные
         public static void Compile(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             Lexems.Clear();
@@ -92,6 +95,7 @@ namespace DiffurTranslator2
             DText.CloseText();
         }
           
+        //Проверка ожидаемой лексемы
         public static void Check(tLex ExpLex, string sWord)
         {
 
@@ -124,6 +128,7 @@ namespace DiffurTranslator2
             }
         }
 
+        //Проверка лексемы "конец текста"
         public static bool CheckEotLex()
         {
             if (DScan.Lex == tLex.lexEot)
@@ -135,6 +140,7 @@ namespace DiffurTranslator2
                 return false;
         }
 
+        //Объявление уравнений
         public static void DeclEq()
         {
             
@@ -158,10 +164,10 @@ namespace DiffurTranslator2
                 Check(tLex.lexAss, " = ");
                 
                 if (DScan.Lex != tLex.lexNum && DScan.Lex != tLex.lexInt && DScan.Lex != tLex.lexName &&
-                    DScan.Lex != tLex.lexOper && DScan.Lex != tLex.lexLpar)
+                    DScan.Lex != tLex.lexOper && DScan.Lex != tLex.lexLpar && DScan.Lex != tLex.lexFun)
                     DError.Expected(" число, идентификатор, математическая операция(+, -, *, /,) или левая скобка ");
 
-                Expression();
+                Expression(0);
                 DScan.NextLex();
             }
 
@@ -169,6 +175,7 @@ namespace DiffurTranslator2
                 DError.Expected(" dxdt ");       
         }
 
+        //Объявление коэффициентов
         public static void DeclKoef()
         {
             KoefCounter = 0;
@@ -211,6 +218,7 @@ namespace DiffurTranslator2
             }
         }
 
+        //Объявление начальный условий задачи Коши
         public static void DeclCauchy()
         {
             string sTemp = "";
@@ -272,6 +280,7 @@ namespace DiffurTranslator2
 
         }
 
+        //Объявление численных методов интегрирования
         public static void DeclMethod()
         {
 
@@ -353,6 +362,7 @@ namespace DiffurTranslator2
 
         }
             
+        //Добавление численного метода в список и проверка на повторное добавлене 
         public static bool CheckMethod(tLex tMethod, string sMethod)
         {
             if (DScan.Lex == tMethod && !Methods.Contains(sMethod))
@@ -366,6 +376,7 @@ namespace DiffurTranslator2
             return false;
         }
 
+        //Объявление графиков функций, которые будут выводиться на экран
         public static void DeclPlot()
         {
             PlotParams.Clear();
@@ -386,13 +397,30 @@ namespace DiffurTranslator2
             Check(tLex.lexSemi, " ; ");
         }
 
-        public static void Expression()
+        //Синтаксический разбор выражения
+        public static void Expression(int exp_type)//exp_type - тип выражения; 0 - корневое выражение; 1 - выражение внутри скобок мат. функции
         {
+            debug_conuter++;
+            
             int ParCounter = 0;
 
-            while (DScan.Lex == tLex.lexNum || DScan.Lex == tLex.lexInt || DScan.Lex == tLex.lexName ||
-                  DScan.Lex == tLex.lexOper || DScan.Lex == tLex.lexLpar || DScan.Lex == tLex.lexRpar)
+            if (exp_type == 1)
             {
+                DScan.NextLex();
+                Check(tLex.lexLpar, " ( ");//Ожидаем левую скобку, если нет - вываливаемся в ошибку через Check
+                ParCounter++;
+            }
+    
+            while (DScan.Lex == tLex.lexNum || DScan.Lex == tLex.lexInt || DScan.Lex == tLex.lexName ||
+                  DScan.Lex == tLex.lexOper || DScan.Lex == tLex.lexLpar || DScan.Lex == tLex.lexRpar || DScan.Lex == tLex.lexFun)
+            {
+
+                if (DScan.Lex == tLex.lexFun)
+                {
+                    Expression(1);
+                    continue;
+                }
+
                 if (DScan.Lex == tLex.lexNum || DScan.Lex == tLex.lexInt)
                 {
                     Number();
@@ -429,6 +457,14 @@ namespace DiffurTranslator2
                     {
                         ParCounter--;
                         DScan.NextLex();
+
+                        //Пока есть проблемы с вложенными функциями
+                        /*if (exp_type == 1 && ParCounter == 1)
+                        {
+                            Check(tLex.lexRpar, " ) ");
+                            DScan.NextLex();
+                            return;
+                        }*/
                     }
                 }
             }
@@ -438,10 +474,15 @@ namespace DiffurTranslator2
                 DError.Expected(" ) ");
             }
 
-            if(DScan.Lex != tLex.lexSemi)
-                DError.Expected(" ; ");
+            //Если выражение корневое, ожидается ';'
+            if (exp_type == 0)
+            {
+                if (DScan.Lex != tLex.lexSemi)
+                    DError.Expected(" ; ");
+            }
         }
 
+        //Проверка является ли следующая лексема числом
         public static void Number()
         {
             DScan.NextLex();
@@ -449,6 +490,7 @@ namespace DiffurTranslator2
                 DError.Expected(" математическая операция(+, -, *, /,), правая скобка или ';' ");
         }
 
+        //Проверка идентификаторов
         public static void Name()
         {
             if (sCurName == "x")
@@ -457,9 +499,9 @@ namespace DiffurTranslator2
                 Variable_t();
             else
                 Koef();
-            
         }
 
+        //Проверка идентификатора функции от времени x = f(t)
         public static void Variable_x()
         {
             DScan.NextLex();
@@ -489,13 +531,15 @@ namespace DiffurTranslator2
 
         }
 
+        //Проверка идентификатора переменной времени - t
         public static void Variable_t()
         {
             DScan.NextLex();
             if (DScan.Lex != tLex.lexOper && DScan.Lex != tLex.lexRpar && DScan.Lex != tLex.lexSemi)
-                DError.Expected(" математическая операция(+, -, *, /,), правая скобка или ;");
+                DError.Expected(" математическая операция(+, -, *, /,), правая скобка или ; ");
         }
 
+        //Проверка коэффициента
         public static void Koef()
         {
             if (sCurName.Length > 1)
@@ -513,14 +557,16 @@ namespace DiffurTranslator2
             }
         }
 
+        //Проверка является ли следующая лексема математической операцией
         public static void Oper()
         {
             DScan.NextLex();
             if (DScan.Lex != tLex.lexName && DScan.Lex != tLex.lexLpar &&
-                DScan.Lex != tLex.lexNum && DScan.Lex != tLex.lexInt)
+                DScan.Lex != tLex.lexNum && DScan.Lex != tLex.lexInt && DScan.Lex != tLex.lexFun)
                 DError.Expected(" переменная, коэффициент, число или левая скобка) ");
         }
 
+        //Проверка минуса(унарный или бинарный)
         public static bool CheckMinus()
         {
             if (DScan.Lex == tLex.lexOper)
@@ -536,9 +582,9 @@ namespace DiffurTranslator2
             return false;
         }
 
+        //Генератор matlab-файла, описывающего систему уравнений
         public static void GenFunSys(ref RichTextBox Lexems, ref RichTextBox Code)
         {
-
             string sTemp = "";
             int j = 0;
 
@@ -573,6 +619,7 @@ namespace DiffurTranslator2
 
         }
 
+        //Генератор matlab-файла для решения системы уравнений методом Эйлера 1-го порядка
         public static void GenEuler(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             string sTemp = "";
@@ -628,6 +675,7 @@ namespace DiffurTranslator2
 
         }
 
+        //Генератор matlab-файла для решения системы уравнений методом Гюна 2-го порядка
         public static void GenHeun(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             string sTemp = "";
@@ -688,6 +736,7 @@ namespace DiffurTranslator2
 
         }
 
+        //Генератор matlab-файла для решения системы уравнений методом Рунге-Кутты 2-го порядка
         public static void GenOde23(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             string sTemp = "";
@@ -731,6 +780,7 @@ namespace DiffurTranslator2
             
         }
 
+        //Генератор matlab-файла для решения системы уравнений методом Рунге-Кутты 4-го порядка
         public static void GenOde45(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             string sTemp = "";
@@ -771,8 +821,6 @@ namespace DiffurTranslator2
             Lexems.Text += "print('-dbmp','-r80','graf_ode45.bmp')\n";
 
             DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode45.m", ref Lexems);
-
         }
-
     }
 }

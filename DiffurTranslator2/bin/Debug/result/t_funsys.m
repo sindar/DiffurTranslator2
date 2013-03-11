@@ -1,12 +1,9 @@
 function dxdt=t_funsys(t,x);
-k=0.5;
-l=0.1;
-m=0.25;
-n=0.1;
+a=2;
+b=2;
 
-dxdt=zeros(3, 1);
+dxdt=zeros(2, 1);
 
-dxdt(1)=x(3)*l + x(2)*n-x(1)*k-x(1)*m;
-dxdt(2)=x(1)*m - x(2)*n;
-dxdt(3)=x(1)*k - x(3)*l;
+dxdt(1)=sin(t+(1)+(2)+2)+a;
+dxdt(2)=cos(t-(t)+t-x(1))*b;
 
