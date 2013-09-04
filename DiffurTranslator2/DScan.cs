@@ -9,8 +9,8 @@ namespace DiffurTranslator2
 {
     public enum tLex {lexEot, lexBegin, lexGiven, lexKoef, lexCauchy, lexMethod, lexGet, lexEnd, lexdxdt, lexFun,
                       lexName, lexNum, lexInt, lexRpar, lexLpar, lexQRpar, lexQLpar, lexOper, lexPow, lexTspan,
-                      lexStep, lexX0, lexFRpar, lexFLpar, lexColon, lexSemi, lexComma, lexDot, lexAss, 
-                      lexEuler, lexHeun, lexOde23, lexOde45, lexPlot };
+                      lexStep, lexX0, lexFRpar, lexFLpar, lexColon, lexSemi, lexComma, lexDot, lexAss,
+                      lexEuler, lexHeun, lexRK2, lexRK4, lexRKF5, lexPlot};
 
     public enum tOper { Minus, Plus, Pow, Multi, Div };
 
@@ -30,7 +30,7 @@ namespace DiffurTranslator2
         public static int LexPos { get; set; }
         public static tOper Oper { get; set; }
         
-        public const int KWNum = 16;
+        public const int KWNum = 17;
                 
         private static int nkw;//номер ключевого слова
 
@@ -222,10 +222,11 @@ namespace DiffurTranslator2
             EnterKW("tspan", tLex.lexTspan);
             EnterKW("step", tLex.lexStep);
             EnterKW("x0", tLex.lexX0);
-            EnterKW("euler", tLex.lexEuler);
-            EnterKW("heun", tLex.lexHeun);
-            EnterKW("ode23", tLex.lexOde23);
-            EnterKW("ode45", tLex.lexOde45);
+            EnterKW("Euler", tLex.lexEuler);
+            EnterKW("Heun", tLex.lexHeun);
+            EnterKW("RK2", tLex.lexRK2);
+            EnterKW("RK4", tLex.lexRK4);
+            EnterKW("RKF5", tLex.lexRKF5);
             EnterKW("plot", tLex.lexPlot);
         }
     }

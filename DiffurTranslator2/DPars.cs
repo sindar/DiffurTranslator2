@@ -24,7 +24,8 @@ namespace DiffurTranslator2
         static string min;
         static string step;
         static string max;
-
+        static string RKF5Tol;
+        
         static int debug_conuter;
 
         public static Hashtable Koefs = new Hashtable();
@@ -73,16 +74,22 @@ namespace DiffurTranslator2
                     MatLabApp.Execute("t_heun");
                 }
 
-                if (Methods.Contains("ode23"))
+                if (Methods.Contains("RK2"))
                 {
-                    GenOde23(ref Lexems, ref Code);
-                    MatLabApp.Execute("t_ode23");
+                    GenRK2(ref Lexems, ref Code);
+                    MatLabApp.Execute("t_RK2");
                 }
 
-                if (Methods.Contains("ode45"))
+                if (Methods.Contains("RK4"))
                 {
-                    GenOde45(ref Lexems, ref Code);
-                    MatLabApp.Execute("t_ode45");
+                    GenRK4(ref Lexems, ref Code);
+                    MatLabApp.Execute("t_RK4");
+                }
+
+                if (Methods.Contains("RKF5"))
+                {
+                    GenRKF5(ref Lexems, ref Code);
+                    MatLabApp.Execute("t_RKF5");
                 }
 
                 WaitForm waitwin = new WaitForm();
@@ -283,17 +290,18 @@ namespace DiffurTranslator2
         //Объявление численных методов интегрирования
         public static void DeclMethod()
         {
-
+            string sTemp = "";
             Methods.Clear();
 
             int i;
 
-            for (i = 1; i < 5; i++)
+            for (i = 1; i < 6; i++)
             {
                 if (DScan.Lex != tLex.lexEuler && DScan.Lex != tLex.lexHeun
-                  && DScan.Lex != tLex.lexOde23 && DScan.Lex != tLex.lexOde45 && DScan.Lex != tLex.lexSemi)
+                  && DScan.Lex != tLex.lexRK2 && DScan.Lex != tLex.lexRK4 && DScan.Lex != tLex.lexRKF5
+                  && DScan.Lex != tLex.lexSemi)
                 {
-                    DError.Expected(" численный метод - euler(Эйлера), heun(Гюна), ode23(Рунге-Кутта 2-го порядка, ode45(Рунге-Кутта 4-го порядка) или ';' ");
+                    DError.Expected(" численный метод - euler(Эйлера), heun(Гюна), RK2(Рунге-Кутта 2-го порядка, RK4(Рунге-Кутта 4-го порядка) или ';' ");
                     break;
                 }
                 else if (DScan.Lex == tLex.lexSemi)
@@ -302,13 +310,13 @@ namespace DiffurTranslator2
                 {
                     if (CheckMethod(tLex.lexEuler, "euler"))
                     {
-                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        if ((i < 5) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
                         {
                             DError.Expected(" ',' или ';' ");
                             break;
                         }
 
-                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                        if (i < 5 && DScan.Lex != tLex.lexSemi)
                             DScan.NextLex();
 
                         continue;
@@ -316,41 +324,63 @@ namespace DiffurTranslator2
 
                     if (CheckMethod(tLex.lexHeun, "heun"))
                     {
-                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        if ((i < 5) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
                         {
                             DError.Expected(" ',' или ';' ");
                             break;
                         }
 
-                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                        if (i < 5 && DScan.Lex != tLex.lexSemi)
                             DScan.NextLex();
 
                         continue;
                     }
 
-                    if (CheckMethod(tLex.lexOde23, "ode23"))
+                    if (CheckMethod(tLex.lexRK2, "RK2"))
                     {
-                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        if ((i < 5) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
                         {
                             DError.Expected(" ',' или ';' ");
                             break;
                         }
 
-                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                        if (i < 5 && DScan.Lex != tLex.lexSemi)
                             DScan.NextLex();
 
                         continue;
                     }
 
-                    if (CheckMethod(tLex.lexOde45, "ode45"))
+                    if (CheckMethod(tLex.lexRK4, "RK4"))
                     {
-                        if ((i < 4) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        if ((i < 5) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
                         {
                             DError.Expected(" ',' или ';' ");
                             break;
                         }
 
-                        if (i < 4 && DScan.Lex != tLex.lexSemi)
+                        if (i < 5 && DScan.Lex != tLex.lexSemi)
+                            DScan.NextLex();
+
+                        continue;
+                    }
+
+                    if (CheckMethod(tLex.lexRKF5, "RKF5"))
+                    {
+                        Check(tLex.lexQLpar, " [ ");
+
+                        sTemp = "";
+                        Check(tLex.lexNum, " число(точность) ");
+                        sTemp += dCurNum.ToString().Replace(',', '.');
+                        RKF5Tol = sTemp;
+                        Check(tLex.lexQRpar, " ] ");
+                        
+                        if ((i < 5) && (DScan.Lex != tLex.lexComma && DScan.Lex != tLex.lexSemi))
+                        {
+                            DError.Expected(" ',' или ';' ");
+                            break;
+                        }
+
+                        if (i < 5 && DScan.Lex != tLex.lexSemi)
                             DScan.NextLex();
 
                         continue;
@@ -737,13 +767,13 @@ namespace DiffurTranslator2
         }
 
         //Генератор matlab-файла для решения системы уравнений методом Рунге-Кутты 2-го порядка
-        public static void GenOde23(ref RichTextBox Lexems, ref RichTextBox Code)
+        public static void GenRK2(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             string sTemp = "";
             int j = 0;
 
             Lexems.Clear();
-            Lexems.Text += "function t_ode23()\n";
+            Lexems.Text += "function t_RK2()\n";
             Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',', '.') + ':' + max + "]\n";
 
             j = Code.Text.IndexOf("x0");
@@ -774,20 +804,20 @@ namespace DiffurTranslator2
             if (MainForm.bLegendChecked)
                 Lexems.Text += "legend('x`1','x`2','x`3')\n";
 
-            Lexems.Text += "print('-dbmp','-r80','graf_ode23.bmp')\n";
+            Lexems.Text += "print('-dbmp','-r80','graf_RK2.bmp')\n";
 
-            DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode23.m", ref Lexems);
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_RK2.m", ref Lexems);
             
         }
 
         //Генератор matlab-файла для решения системы уравнений методом Рунге-Кутты 4-го порядка
-        public static void GenOde45(ref RichTextBox Lexems, ref RichTextBox Code)
+        public static void GenRK4(ref RichTextBox Lexems, ref RichTextBox Code)
         {
             string sTemp = "";
             int j = 0;
 
             Lexems.Clear();
-            Lexems.Text += "function t_ode45()\n";
+            Lexems.Text += "function t_RK4()\n";
             Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',', '.') + ':' + max + "]\n";
 
             j = Code.Text.IndexOf("x0");
@@ -818,9 +848,52 @@ namespace DiffurTranslator2
             if (MainForm.bLegendChecked)
                 Lexems.Text += "legend('x`1','x`2','x`3')\n";
 
-            Lexems.Text += "print('-dbmp','-r80','graf_ode45.bmp')\n";
+            Lexems.Text += "print('-dbmp','-r80','graf_RK4.bmp')\n";
 
-            DFile.SaveFile(MainForm.StartPath + "\\result\\t_ode45.m", ref Lexems);
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_RK4.m", ref Lexems);
+        }
+
+        //Генератор matlab-файла для решения системы уравнений методом Рунге-Кутты-Фехлберга 5-го порядка
+        public static void GenRKF5(ref RichTextBox Lexems, ref RichTextBox Code)
+        {
+            string sTemp = "";
+            int j = 0;
+
+            Lexems.Clear();
+            Lexems.Text += "function t_RKF5()\n";
+            Lexems.Text += "tspan=[" + min + ':' + step.ToString().Replace(',', '.') + ':' + max + "]\n";
+
+            j = Code.Text.IndexOf("x0");
+            do
+            {
+                sTemp += Code.Text[j];
+                j++;
+            } while (!Code.Text[j].Equals(']'));
+
+            Lexems.Text += sTemp + "];\n";
+            Lexems.Text += "[t,x]=ode45(@t_funsys,tspan,x0, " + RKF5Tol + ");\n";
+            Lexems.Text += "f = figure('Visible','off')\n";
+
+            sTemp = "";
+            j = 1;
+            foreach (object p in PlotParams)
+            {
+                sTemp += p.ToString();
+                if (j < PlotParams.Count)
+                    sTemp += ',';
+                j++;
+            }
+
+            Lexems.Text += "plot (t,x(:,[" + sTemp + "]),'lineWidth',3);\n";
+
+            Lexems.Text += "grid on\n";
+
+            if (MainForm.bLegendChecked)
+                Lexems.Text += "legend('x`1','x`2','x`3')\n";
+
+            Lexems.Text += "print('-dbmp','-r80','graf_RKF5.bmp')\n";
+
+            DFile.SaveFile(MainForm.StartPath + "\\result\\t_RKF5.m", ref Lexems);
         }
     }
 }

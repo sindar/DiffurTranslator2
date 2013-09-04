@@ -33,9 +33,9 @@
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TranslateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LegendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TranslateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.CodeRTextBox = new System.Windows.Forms.RichTextBox();
             this.SaveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
@@ -68,36 +68,29 @@
             this.saveToolStripMenuItem,
             this.ExitToolStripMenuItem});
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.FileToolStripMenuItem.Text = "Файл";
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.OpenToolStripMenuItem.Text = "Открыть";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.saveToolStripMenuItem.Text = "Сохранить";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // ExitToolStripMenuItem
             // 
             this.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem";
-            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.ExitToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
             this.ExitToolStripMenuItem.Text = "Выход";
             this.ExitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
-            // 
-            // TranslateToolStripMenuItem
-            // 
-            this.TranslateToolStripMenuItem.Name = "TranslateToolStripMenuItem";
-            this.TranslateToolStripMenuItem.Size = new System.Drawing.Size(96, 20);
-            this.TranslateToolStripMenuItem.Text = "Транслировать";
-            this.TranslateToolStripMenuItem.Click += new System.EventHandler(this.TranslateToolStripMenuItem_Click);
             // 
             // SettingsToolStripMenuItem
             // 
@@ -107,7 +100,7 @@
             this.SettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.LegendToolStripMenuItem});
             this.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem";
-            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(73, 20);
+            this.SettingsToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.SettingsToolStripMenuItem.Text = "Настройки";
             // 
             // LegendToolStripMenuItem
@@ -116,9 +109,16 @@
             this.LegendToolStripMenuItem.CheckOnClick = true;
             this.LegendToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.LegendToolStripMenuItem.Name = "LegendToolStripMenuItem";
-            this.LegendToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.LegendToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.LegendToolStripMenuItem.Text = "Легенда на графике";
             this.LegendToolStripMenuItem.CheckedChanged += new System.EventHandler(this.LegendToolStripMenuItem_CheckedChanged);
+            // 
+            // TranslateToolStripMenuItem
+            // 
+            this.TranslateToolStripMenuItem.Name = "TranslateToolStripMenuItem";
+            this.TranslateToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+            this.TranslateToolStripMenuItem.Text = "Транслировать";
+            this.TranslateToolStripMenuItem.Click += new System.EventHandler(this.TranslateToolStripMenuItem_Click);
             // 
             // OpenFileDialog1
             // 

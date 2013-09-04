@@ -19,19 +19,22 @@ namespace DiffurTranslator2
             {
                 pictureBox1.ImageLocation = MainForm.StartPath + "\\result\\graf_eu.bmp";
             }
-            if (DPars.Methods.Contains("ode23"))
-            {
-                pictureBox2.ImageLocation = MainForm.StartPath + "\\result\\graf_ode23.bmp";
-            }
-            if (DPars.Methods.Contains("ode45"))
-            {
-                pictureBox3.ImageLocation = MainForm.StartPath + "\\result\\graf_ode45.bmp";
-            }
             if (DPars.Methods.Contains("heun"))
             {
                 pictureBox4.ImageLocation = MainForm.StartPath + "\\result\\graf_heun.bmp";
             }
-            
+            if (DPars.Methods.Contains("RK2"))
+            {
+                pictureBox2.ImageLocation = MainForm.StartPath + "\\result\\graf_RK2.bmp";
+            }
+            if (DPars.Methods.Contains("RK4"))
+            {
+                pictureBox3.ImageLocation = MainForm.StartPath + "\\result\\graf_RK4.bmp";
+            }
+            if (DPars.Methods.Contains("RKF5"))
+            {
+                pictureBox5.ImageLocation = MainForm.StartPath + "\\result\\graf_RKF5.bmp";
+            }
         }
 
     }
